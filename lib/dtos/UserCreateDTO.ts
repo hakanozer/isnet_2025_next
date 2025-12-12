@@ -10,3 +10,10 @@ export interface UserLoginDTO {
   email: string;
   password: string;
 }
+
+export interface UserSession {
+  id: number,
+  name: string,
+  email: string,
+  role: string
+}

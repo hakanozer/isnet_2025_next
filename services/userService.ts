@@ -43,6 +43,16 @@ export const login = async (user : UserLoginDTO) => {
     const dbUser = await prismaDB.user.findUnique({
         where: { email: user.email }
     })
-    
+    if(dbUser) {
+        // password control
+        const passwordStatus = await bcrypt.compare(user.password, dbUser.password)
+        if (passwordStatus === true) {
+            globalModel.status = 200
+            globalModel.result = dbUser 
+            return globalModel          
+        }
+    }
+    globalModel.status = 400,
+    globalModel.result = 'E-Mail yada Password hatalı!'
     return globalModel;
 }

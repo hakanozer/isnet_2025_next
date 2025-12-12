@@ -1,13 +1,13 @@
 "use client";
 
-import { userRegisterServer } from "@/server/userServer"
+import { userLoginServer } from "@/server/userServer"
 import Link from "next/link";
 import { useActionState } from "react";
 
 function Login() {
 
-  const [state, formAction] = useActionState(userRegisterServer, {
-    errorMessage: ""
+  const [state, formAction] = useActionState(userLoginServer, {
+      errorMessage: ""
   });
 
   return (

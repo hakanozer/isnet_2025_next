@@ -2,8 +2,10 @@
 
 import { iGlobal } from "@/lib/globalModel"
 import { getForm } from "./util"
-import { register } from "@/services/userService"
+import { login, register } from "@/services/userService"
 import { redirect } from "next/navigation"
+import { UserLoginDTO } from "@/lib/dtos/UserCreateDTO"
+import { getSession } from "@/lib/session"
 
 export const userRegisterServer = async (prevState: any, formData: FormData) => {
     const userDto = {
@@ -13,16 +15,30 @@ export const userRegisterServer = async (prevState: any, formData: FormData) => 
     }
 
     const registerData: iGlobal = await register(userDto)
-
     if (registerData.status === 200) {
         redirect('/')
     }
-
     return {
         errorMessage: registerData.result
     }
 }
 
 export const userLoginServer = async (prevState: any, formData: FormData) => {
-    
+    const userDto: UserLoginDTO = {
+        email: getForm(formData, 'email'),
+        password: getForm(formData, 'password')
+    }
+    const userLoginDb = await login(userDto)
+    if (userLoginDb.status == 200) {
+        const session = await getSession()
+        session.id = userLoginDb.result.id
+        session.name = userLoginDb.result.name
+        session.email = userLoginDb.result.email
+        session.role = userLoginDb.result.role
+        await session.save()
+        redirect('admin/dashboard')
+    }
+    return {
+        errorMessage: userLoginDb.result
+    }
 }
