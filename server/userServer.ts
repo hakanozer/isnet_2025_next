@@ -42,3 +42,9 @@ export const userLoginServer = async (prevState: any, formData: FormData) => {
         errorMessage: userLoginDb.result
     }
 }
+
+export const userLogoutServer = async () => {
+    const session = await getSession() 
+    session.destroy() 
+    redirect('/')
+}

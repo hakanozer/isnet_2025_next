@@ -16,14 +16,13 @@ export default async function AdminLayout({
 }>) {
 
   const session = await getSession()
-  if (!session.id) {
-    redirect('/')
-  }
-  const h = await headers();
 
+  /*
+  const h = await headers();
   const referer = h.get('referer') || '';
   const pathname = new URL(referer).pathname;
-  console.log('pathname', pathname, session.role)
+  console.log(pathname, session.role)
+  */
 
   return (
     <html lang="en">
@@ -32,7 +31,7 @@ export default async function AdminLayout({
       <body>
         <div className="container">
           {session && session.id && 
-            <Navbar />
+            <Navbar name={session.name} />
           }
           {children}
         </div>

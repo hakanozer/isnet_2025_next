@@ -1,6 +1,16 @@
+'use client'
+import { userLogoutServer } from "@/server/userServer"
 import Link from "next/link"
 
-function Navbar() {
+function Navbar(props: {name: string}) {
+
+  const fncLogout = () => {
+    const answer = window.confirm('Are you sure!')
+    if (answer == true) {
+        userLogoutServer()
+    }
+  }
+    
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
     <div className="container-fluid">
@@ -24,11 +34,11 @@ function Navbar() {
                 <li><a className="dropdown-item" href="#">Action</a></li>
                 <li><a className="dropdown-item" href="#">Another action</a></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="#">Something else here</a></li>
+                <li><a className="dropdown-item" onClick={fncLogout} role="button">Logout</a></li>
             </ul>
             </li>
             <li className="nav-item">
-            <a className="nav-link disabled" aria-disabled="true">Disabled</a>
+            <a className="nav-link disabled" aria-disabled="true">Sn. {props.name}</a>
             </li>
         </ul>
         <form className="d-flex" role="search">
