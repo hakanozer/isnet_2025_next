@@ -2,11 +2,11 @@
 
 import { userRegisterServer } from "@/server/userServer"
 import Link from "next/link";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 function Login() {
 
-  const [state, formAction] = useFormState(userRegisterServer, {
+  const [state, formAction] = useActionState(userRegisterServer, {
     errorMessage: ""
   });
 
@@ -23,7 +23,7 @@ function Login() {
                     <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
                 }
-                <form action={formAction} method="POST">
+                <form action={formAction}>
                   <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email</label>
                     <input
