@@ -5,3 +5,8 @@ export interface UserCreateDTO {
   role?: string;
   status?: boolean;
 }
+
+export interface UserLoginDTO {
+  email: string;
+  password: string;
+}

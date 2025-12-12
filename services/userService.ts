@@ -1,4 +1,5 @@
-import { UserCreateDTO } from "@/lib/dtos/UserCreateDTO";
+import { UserCreateDTO, UserLoginDTO } from "@/lib/dtos/UserCreateDTO";
+import { globalModel, iGlobal } from "@/lib/globalModel";
 import prismaDB from "@/lib/prisma/client";
 import bcrypt from 'bcrypt'
 
@@ -36,4 +37,12 @@ export const register = async (user: UserCreateDTO) => {
             result: "Veritabanı hatası oluştu"
         }
     }
+}
+
+export const login = async (user : UserLoginDTO) => {
+    const dbUser = await prismaDB.user.findUnique({
+        where: { email: user.email }
+    })
+    
+    return globalModel;
 }

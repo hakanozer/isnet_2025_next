@@ -1,5 +1,13 @@
+"use client";
+
+import { userRegisterServer } from "@/server/userServer"
+import { useFormState } from "react-dom";
 
 function Register() {
+
+  const [state, formAction] = useFormState(userRegisterServer, {
+    errorMessage: ""
+  });
 
   return (
       <div className="container mt-5">
@@ -8,7 +16,13 @@ function Register() {
             <div className="card">
               <div className="card-body">
                 <h2 className="card-title mb-4">Register</h2>
-                <form method='post' action={userRegister}>
+                {state.errorMessage && 
+                  <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {state.errorMessage}
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                }
+                <form action={formAction} method="POST">
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
                     <input
