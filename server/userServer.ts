@@ -36,7 +36,7 @@ export const userLoginServer = async (prevState: any, formData: FormData) => {
         session.email = userLoginDb.result.email
         session.role = userLoginDb.result.role
         await session.save()
-        redirect('admin/dashboard')
+        redirect('admin/product')
     }
     return {
         errorMessage: userLoginDb.result

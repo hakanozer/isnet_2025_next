@@ -21,10 +21,10 @@ function Navbar(props: {name: string}) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-            <a href={'dashboard'} className="nav-link">Dashboard</a>
+            <a href={'product'} className="nav-link">Product</a>
             </li>
             <li className="nav-item">
-            <a href={'profile'} className="nav-link">Profile</a>
+            <a href={'note'} className="nav-link">Note</a>
             </li>
             <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
