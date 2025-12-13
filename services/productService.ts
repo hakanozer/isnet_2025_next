@@ -19,3 +19,14 @@ export const listProduct = async () => {
     globalModel.result = listPro
     return globalModel
 }
+
+export const deleteProduct = async (id: number) => {
+    try {
+        const deletePro = await prismaDB.product.delete({where: {id: id}})
+        globalModel.result = deletePro
+    } catch (error) {
+        globalModel.status = 400
+        globalModel.result = id
+    }
+    
+}

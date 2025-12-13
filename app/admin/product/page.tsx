@@ -1,9 +1,20 @@
 
-import { listProduct } from "@/services/productService";
+type PageProps = {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+import { deleteProduct, listProduct } from "@/services/productService";
 import ProductForm from "../components/ProductForm";
 import { ProductAddDTO } from "@/lib/dtos/ProductDTO";
+import { redirect } from "next/navigation";
 
-async function Dashboard() {
+async function Dashboard({ searchParams }: PageProps) {
+
+  const params = await searchParams
+  if (params && params?.deleteId) {
+    deleteProduct(Number(params.deleteId))
+    redirect('product')
+  }
 
   const proArr = (await listProduct()).result as ProductAddDTO[]
 
@@ -23,6 +34,7 @@ async function Dashboard() {
                   <th>Title</th>
                   <th>Detail</th>
                   <th>Price</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -32,6 +44,9 @@ async function Dashboard() {
                     <td>{item.title}</td>
                     <td>{item.detail}</td>
                     <td>{item.price}₺</td>
+                    <td>
+                      <a className="btn btn-danger btn-sm" href={'product?deleteId='+item.id}>Delete</a>
+                    </td>
                   </tr>
                 )}
               </tbody>
