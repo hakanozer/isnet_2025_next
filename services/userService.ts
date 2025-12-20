@@ -1,5 +1,5 @@
 import { UserCreateDTO, UserLoginDTO } from "@/lib/dtos/UserCreateDTO";
-import { globalModel, iGlobal } from "@/lib/globalModel";
+import { globalModel } from "@/lib/globalModel";
 import prismaDB from "@/lib/prisma/client";
 import bcrypt from 'bcrypt'
 
