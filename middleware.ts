@@ -6,7 +6,9 @@ export async function middleware(request: NextRequest, response: NextResponse ) 
   if (session.id) {
     return NextResponse.next();
   }
-  return NextResponse.redirect('http://localhost:3000/')
+  const mainURL = request.nextUrl.clone()
+  mainURL.pathname = '/'
+  return NextResponse.redirect(mainURL)
 }
 
 export const config = {
