@@ -1,6 +1,8 @@
 import { ProductAddDTO } from "@/lib/dtos/ProductDTO";
 import { globalModel } from "@/lib/globalModel";
 import prismaDB from "@/lib/prisma/client";
+import { unstable_cache, revalidateTag } from "next/cache";
+
 
 export const addProduct = async (productAddDto: ProductAddDTO) => {
     const saveProduct = await prismaDB.product.create({
@@ -11,14 +13,21 @@ export const addProduct = async (productAddDto: ProductAddDTO) => {
         }
     })
     globalModel.result = saveProduct
+    revalidateTag("product-list", { expire: 0 });
     return globalModel
 }
 
-export const listProduct = async () => {
+export const listProduct = unstable_cache( async () => {
     const listPro = await prismaDB.product.findMany()
     globalModel.result = listPro
+    console.log("DB CALL 🚨");
     return globalModel
-}
+    },
+    ["product-list"], // cache key
+    {
+        revalidate: 60, // 60 saniye
+    }
+)
 
 export const deleteProduct = async (id: number) => {
     try {

@@ -2,9 +2,21 @@
 
 import { userLoginServer } from "@/server/userServer"
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 function Login() {
+
+  //const obj: any = {}
+  //console.log(obj.call())
+
+  const [title, setTitle] = useState('')
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => response.json())
+      .then(json => 
+        setTitle(json.title)
+      )
+  }, [0])
 
   const [state, formAction] = useActionState(userLoginServer, {
       errorMessage: ""
@@ -16,7 +28,7 @@ function Login() {
           <div className="col-12 col-lg-4">
             <div className="card">
               <div className="card-body">
-                <h2 className="card-title mb-4">Login</h2>
+                <h2 className="card-title mb-4">Login - {title}</h2>
                 {state.errorMessage && 
                   <div className="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Error!</strong> {state.errorMessage}

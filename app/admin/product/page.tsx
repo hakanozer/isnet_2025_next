@@ -10,6 +10,8 @@ import { redirect } from "next/navigation";
 
 async function Dashboard({ searchParams }: PageProps) {
 
+  //await new Promise((r) => setTimeout(r, 3000));
+
   const params = await searchParams
   if (params && params?.deleteId) {
     deleteProduct(Number(params.deleteId))
