@@ -12,6 +12,9 @@ export function TRPCProvider({ children }: { children: React.ReactNode }) {
       links: [
         httpBatchLink({
           url: '/api/trpc',
+          headers() {
+            return { 'x-api-key': 'key123' };
+          },
         }),
       ],
     })

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, protectedProcedure } from '../trpc';
 
 // Örnek veri
 let users = [
@@ -21,7 +21,7 @@ export const userRouter = router({
     }),
 
   // Kullanıcıyı güncelle
-  update: publicProcedure
+  update: protectedProcedure
     .input(z.object({
       id: z.number(),
       name: z.string().min(2).optional(),
@@ -37,7 +37,7 @@ export const userRouter = router({
     }),
 
   // Yeni kullanıcı ekle
-  create: publicProcedure
+  create: protectedProcedure
     .input(z.object({
       name: z.string().min(2),
       email: z.email(),
