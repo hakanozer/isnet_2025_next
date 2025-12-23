@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { TRPCProvider } from "./providers";
+
 
 export const metaData: Metadata = {
   title: 'İşnet App',
@@ -20,7 +22,9 @@ export default function RootLayout({
     </head>
       <body>
         <div className="container">
-          {children}
+          <TRPCProvider>
+              {children}
+          </TRPCProvider>
         </div>
       </body>
     </html>
