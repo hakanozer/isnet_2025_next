@@ -6,15 +6,35 @@ type PageProps = {
 import { deleteProduct, listProduct } from "@/services/productService";
 import ProductForm from "../components/ProductForm";
 import { ProductAddDTO } from "@/lib/dtos/ProductDTO";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { after } from "next/server";
+
+export async function generateMetadata( params : PageProps ) {
+  const objParams = await params.searchParams
+  console.log("Generate Metadata - Product Page", objParams?.id)
+  return { title: `Products`, description: 'Product Management Page' };
+}
 
 async function Dashboard({ searchParams }: PageProps) {
+
+  after(() => {
+    console.log("After Response - Login Page")
+  })
 
   //await new Promise((r) => setTimeout(r, 3000));
 
   const params = await searchParams
   if (params && params?.deleteId) {
-    deleteProduct(Number(params.deleteId))
+    try {
+      const deleteId = await deleteProduct(Number(params.deleteId))
+      if (deleteId.status !== 200) {
+        console.error("Failed to delete product with ID:", params.deleteId);
+        notFound()
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      notFound()
+    }
     redirect('product')
   }
 

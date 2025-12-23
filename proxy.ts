@@ -2,9 +2,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from './lib/jwt';
 import { getSession } from './lib/session';
+import { limiter } from '@/lib/rate-limit';
 
 // Buradaki fonksiyon adı kesinlikle "proxy" olmalı
 export async function proxy(request: NextRequest) {
+
+  const ip = request.headers.get('x-forwarded-for') || 'anonymous';
+  // Sınır: 10 saniyede 5 istek
+  const { isRateLimited, currentUsage, limit } = limiter.check(5, ip);
+  if (isRateLimited) {
+    return NextResponse.json(
+      { error: 'Kullanım sınırını aştınız' },
+      { 
+        status: 429, 
+        headers: { 'X-RateLimit-Limit': limit.toString(), 'X-RateLimit-Remaining': '0' } 
+      }
+    );
+  }
+
   const mainPath = '/api/v1/';  
   const url = request.nextUrl.clone();
 
